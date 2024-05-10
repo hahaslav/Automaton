@@ -3,6 +3,8 @@
 #include <string>
 #include <sstream>
 
+const std::string CONST_ENDING = "23";
+
 std::string read_file(std::string filename = "input.txt") {
     std::ifstream fin(filename);
     std::stringstream buffer;
@@ -19,6 +21,7 @@ int main(int argc, char *argv[]) {
     } else {
         text = read_file();
     }
+    text += CONST_ENDING;
 
     std::cout << text;
     return 0;
