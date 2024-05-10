@@ -23,6 +23,32 @@ int main(int argc, char *argv[]) {
     }
     text += CONST_ENDING;
 
-    std::cout << text;
+    std::cout << text << "\n";
+
+    int i;
+    bool ending_state;
+    for (i = 0; i < text.size(); i++) {
+        ending_state = false;
+        if (i % 3 == 0) {
+            if (text[i] != '1') {
+                break;
+            }
+        } else if (i % 3 == 1) {
+            if (text[i] != '2') {
+                break;
+            }
+        } else if (i % 3 == 2) {
+            if (text[i] != '3') {
+                break;
+            } else {
+                ending_state = true;
+            }
+        }
+    }
+    if (ending_state) {
+        std::cout << "String read successfully";
+    } else {
+        std::cout << "String read failed";
+    }
     return 0;
 }
