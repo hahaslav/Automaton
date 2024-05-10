@@ -14,17 +14,7 @@ std::string read_file(std::string filename = "input.txt") {
     return buffer.str();
 }
 
-int main(int argc, char *argv[]) {
-    std::string text;
-    if (argc > 1) {
-        text = read_file(argv[1]);
-    } else {
-        text = read_file();
-    }
-    text += CONST_ENDING;
-
-    std::cout << text << "\n";
-
+bool simple_automate(std::string text) {
     int i;
     bool ending_state;
     for (i = 0; i < text.size(); i++) {
@@ -45,7 +35,21 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-    if (ending_state) {
+
+    return ending_state;
+}
+
+int main(int argc, char *argv[]) {
+    std::string text;
+    if (argc > 1) {
+        text = read_file(argv[1]);
+    } else {
+        text = read_file();
+    }
+    text += CONST_ENDING;
+
+    std::cout << text << "\n";
+    if (simple_automate(text)) {
         std::cout << "String read successfully";
     } else {
         std::cout << "String read failed";
