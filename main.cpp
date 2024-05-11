@@ -15,23 +15,34 @@ std::string read_file(std::string filename = "input.txt") {
 }
 
 bool simple_automate(std::string text) {
-    int i;
+    int i, state = 0;
     bool ending_state;
     for (i = 0; i < text.size(); i++) {
         ending_state = false;
-        if (i % 3 == 0) {
-            if (text[i] != '1') {
-                break;
-            }
-        } else if (i % 3 == 1) {
-            if (text[i] != '2') {
-                break;
-            }
-        } else if (i % 3 == 2) {
-            if (text[i] != '3') {
-                break;
+        if (state % 3 == 0) {
+            if (text[i] == '1') {
+                state = 1;
+                continue;
             } else {
+                break;
+            }
+        } else if (state % 3 == 1) {
+            if (text[i] == '1') {
+                state = 0;
+                continue;
+            } else if (text[i] == '2') {
+                state = 2;
+                continue;
+            } else {
+                break;
+            }
+        } else if (state % 3 == 2) {
+            if (text[i] == '3') {
+                state = 0;
                 ending_state = true;
+                continue;
+            } else {
+                break;
             }
         }
     }
