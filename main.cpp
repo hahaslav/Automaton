@@ -36,6 +36,10 @@ class Automate {
             create_state();
         }
     }
+
+    void break_reset() {
+        current_state = nullptr;
+    }
 public:
     Automate(int n_states) {
         create_states(n_states);
@@ -51,6 +55,10 @@ public:
 
     bool at_final_state() {
         return current_state->is_final();
+    }
+
+    bool is_broken() {
+        return current_state == nullptr;
     }
 };
 
@@ -110,18 +118,20 @@ int main(int argc, char *argv[]) {
 
     std::cout << text << "\n";
     if (simple_automate(text)) {
-        std::cout << "String read successfully\n";
+        std::cout << "String read successfully.\n";
     } else {
-        std::cout << "String read failed\n";
+        std::cout << "String read failed.\n";
     }
 
     Automate automate(3);
-    automate.run_automate(0, text);
     automate.mark_state_as_final(0);
-    if (automate.at_final_state()) {
-        std::cout << "String read successfully\n";
+    automate.run_automate(0, text);
+    if (automate.is_broken()) {
+        std::cout << "String read failed. Automate is broken.\n";
+    } else if (automate.at_final_state()) {
+        std::cout << "String read successfully.\n";
     } else {
-        std::cout << "String read failed\n";
+        std::cout << "String read failed.\n";
     }
 
     return 0;
