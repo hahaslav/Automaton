@@ -13,6 +13,11 @@ class State {
 public:
     State() {}
 
+    void add_transition(State* to, char condition) {
+        conditions.push_back(condition);
+        transitions.push_back(to);
+    }
+
     void mark_as_final() {
         final = true;
     }
@@ -43,6 +48,10 @@ class Automate {
 public:
     Automate(int n_states) {
         create_states(n_states);
+    }
+
+    void add_transition(int from, int to, char condition) {
+        states[from].add_transition(&states[to], condition);
     }
 
     void mark_state_as_final(int state_number) {
@@ -116,20 +125,24 @@ int main(int argc, char *argv[]) {
     }
     text += CONST_ENDING;
 
-    std::cout << text << "\n";
+    std::cout << "Input string is: " << text << "\n";
     if (simple_automate(text)) {
-        std::cout << "String read successfully.\n";
+        std::cout << "String read succeed.\n";
     } else {
         std::cout << "String read failed.\n";
     }
 
     Automate automate(3);
+    automate.add_transition(0, 1, '1');
+    automate.add_transition(1, 0, '1');
+    automate.add_transition(1, 2, '2');
+    automate.add_transition(2, 0, '3');
     automate.mark_state_as_final(0);
     automate.run_automate(0, text);
     if (automate.is_broken()) {
         std::cout << "String read failed. Automate is broken.\n";
     } else if (automate.at_final_state()) {
-        std::cout << "String read successfully.\n";
+        std::cout << "String read succeed.\n";
     } else {
         std::cout << "String read failed.\n";
     }
