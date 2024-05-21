@@ -15,42 +15,6 @@ std::string read_file(std::string filename = "input.txt") {
     return buffer.str();
 }
 
-bool simple_automate(std::string text) {
-    int i, state = 0;
-    bool ending_state;
-    for (i = 0; i < text.size(); i++) {
-        ending_state = false;
-        if (state % 3 == 0) {
-            if (text[i] == '1') {
-                state = 1;
-                continue;
-            } else {
-                break;
-            }
-        } else if (state % 3 == 1) {
-            if (text[i] == '1') {
-                state = 0;
-                continue;
-            } else if (text[i] == '2') {
-                state = 2;
-                continue;
-            } else {
-                break;
-            }
-        } else if (state % 3 == 2) {
-            if (text[i] == '3') {
-                state = 0;
-                ending_state = true;
-                continue;
-            } else {
-                break;
-            }
-        }
-    }
-
-    return ending_state;
-}
-
 Automate default_automate() {
     Automate automate(3);
     automate.add_transition(0, 1, '1');
@@ -93,11 +57,6 @@ int main(int argc, char *argv[]) {
 
     text += CONST_ENDING;
 
-    if (simple_automate(text)) {
-        std::cout << "String read succeed.\n\n";
-    } else {
-        std::cout << "String read failed.\n\n";
-    }
     automate = default_automate();
     test_automate(&automate, text);
     return 0;
