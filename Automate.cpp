@@ -22,6 +22,7 @@ void Automate::run_step(char statement) {
         return;
     }
 
+    current_state = new_state;
 }
 
 void Automate::break_reset() {

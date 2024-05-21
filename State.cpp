@@ -18,7 +18,13 @@ bool State::is_final() {
 }
 
 State* State::get_transition(char condition) {
-    return transitions[0];
+    int i;
+    for (i = 0; i < conditions.size(); i++) {
+        if (condition == conditions[i]) {
+            return transitions[i];
+        }
+    }
+    return nullptr;
 }
 
 std::string State::get_name() {
