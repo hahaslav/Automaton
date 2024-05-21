@@ -9,13 +9,22 @@ const std::string CONST_ENDING = "23";
 class State {
     bool final = false;
     std::vector<char> conditions;
-    std::vector<State> transitions;
+    std::vector<State*> transitions;
 public:
     State() {}
+
+    void mark_as_final() {
+        final = true;
+    }
+
+    bool is_final() {
+        return final;
+    }
 };
 
 class Automate {
     std::vector<State> states;
+    State* current_state;
 
     void create_state() {
         states.push_back(State());
@@ -30,6 +39,18 @@ class Automate {
 public:
     Automate(int n_states) {
         create_states(n_states);
+    }
+
+    void mark_state_as_final(int state_number) {
+        states[state_number].mark_as_final();
+    }
+
+    void run_automate(int starting_state, std::string text) {
+        current_state = &states[starting_state];
+    }
+
+    bool at_final_state() {
+        return current_state->is_final();
     }
 };
 
@@ -89,12 +110,19 @@ int main(int argc, char *argv[]) {
 
     std::cout << text << "\n";
     if (simple_automate(text)) {
-        std::cout << "String read successfully";
+        std::cout << "String read successfully\n";
     } else {
-        std::cout << "String read failed";
+        std::cout << "String read failed\n";
     }
 
     Automate automate(3);
+    automate.run_automate(0, text);
+    automate.mark_state_as_final(0);
+    if (automate.at_final_state()) {
+        std::cout << "String read successfully\n";
+    } else {
+        std::cout << "String read failed\n";
+    }
 
     return 0;
 }
