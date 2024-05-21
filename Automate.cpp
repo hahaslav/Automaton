@@ -13,8 +13,10 @@ void Automate::create_states(int n) {
     }
 }
 
-void Automate::run_step(char statement) {
-    std::cout << "Got '" << statement << "'. ";
+void Automate::run_step(char statement, bool silent) {
+    if (!silent) {
+        std::cout << "Got '" << statement << "'. ";
+    }
     State* new_state = current_state->get_transition(statement);
 
     if (new_state == nullptr) {
@@ -41,19 +43,27 @@ void Automate::mark_state_as_final(int state_number) {
     states[state_number].mark_as_final();
 }
 
-void Automate::run_automate(int starting_state, std::string text) {
+void Automate::run_automate(int starting_state, std::string text, bool silent) {
     current_state = &states[starting_state];
-    std::cout << "Starting at " << current_state->get_name() << " with input string " << text << ".\n";
+    if (!silent) {
+        std::cout << "Starting at " << current_state->get_name() << " with input string " << text << ".\n";
+    }
 
     int i;
     for (i = 0; i < text.size(); i++) {
-        std::cout << "Moving from " << current_state->get_name() << ". ";
-        run_step(text[i]);
+        if (!silent) {
+            std::cout << "Moving from " << current_state->get_name() << ". ";
+        }
+        run_step(text[i], silent);
         if (is_broken()) {
-            std::cout << "Automate is broken.\n";
+            if (!silent) {
+                std::cout << "Automate is broken.\n";
+            }
             return;
         }
-        std::cout << "Transferred into " << current_state->get_name() << ".\n";
+        if (!silent) {
+            std::cout << "Transferred into " << current_state->get_name() << ".\n";
+        }
     }
 }
 

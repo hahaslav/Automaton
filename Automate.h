@@ -10,7 +10,7 @@ class Automate {
 
     void create_states(int n);
 
-    void run_step(char statement);
+    void run_step(char statement, bool silent);
 
     void break_reset();
 public:
@@ -20,7 +20,7 @@ public:
 
     void mark_state_as_final(int state_number);
 
-    void run_automate(int starting_state, std::string text);
+    void run_automate(int starting_state, std::string text, bool silent);
 
     bool at_final_state();
 

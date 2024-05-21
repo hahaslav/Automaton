@@ -4,7 +4,7 @@
 
 #include "Automate.h"
 
-const std::string CONST_ENDING = "23";
+const std::string CONST_ENDING = "3";
 
 std::string read_file(std::string filename = "input.txt") {
     std::ifstream fin(filename);
@@ -61,11 +61,15 @@ Automate default_automate() {
     return automate;
 }
 
-void test_automate(Automate automate, std::string text) {
-    automate.run_automate(0, text);
-    if (automate.is_broken()) {
+void test_automate(Automate* automate, std::string text, bool silent = false) {
+    automate->run_automate(0, text, silent);
+    if (silent) {
+        return;
+    }
+
+    if (automate->is_broken()) {
         std::cout << "String read failed. Automate is broken.\n";
-    } else if (automate.at_final_state()) {
+    } else if (automate->at_final_state()) {
         std::cout << "String read succeed.\n";
     } else {
         std::cout << "String read failed.\n";
@@ -80,15 +84,21 @@ int main(int argc, char *argv[]) {
     } else {
         text = read_file();
     }
-    test_automate(default_automate(), text);
+
+    Automate automate = default_automate();
+    test_automate(&automate, text, true);
+    if (automate.is_broken() || !automate.at_final_state()) {
+        std::cout << "Warning! The automate cannot read the initial string.\n\n";
+    }
+
     text += CONST_ENDING;
 
-    std::cout << "Input string is: " << text << "\n";
     if (simple_automate(text)) {
-        std::cout << "String read succeed.\n";
+        std::cout << "String read succeed.\n\n";
     } else {
-        std::cout << "String read failed.\n";
+        std::cout << "String read failed.\n\n";
     }
-    test_automate(default_automate(), text);
+    automate = default_automate();
+    test_automate(&automate, text);
     return 0;
 }
