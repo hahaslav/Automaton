@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "Automate.h"
+#include "Automaton.h"
 
 const std::string CONST_ENDING = "3";
 
@@ -15,25 +15,25 @@ std::string read_file(std::string filename = "input.txt") {
     return buffer.str();
 }
 
-Automate default_automate() {
-    Automate automate(3);
-    automate.add_transition(0, 1, '1');
-    automate.add_transition(1, 0, '1');
-    automate.add_transition(1, 2, '2');
-    automate.add_transition(2, 0, '3');
-    automate.mark_state_as_final(0);
-    return automate;
+Automaton default_automaton() {
+    Automaton automaton(3);
+    automaton.add_transition(0, 1, '1');
+    automaton.add_transition(1, 0, '1');
+    automaton.add_transition(1, 2, '2');
+    automaton.add_transition(2, 0, '3');
+    automaton.mark_state_as_final(0);
+    return automaton;
 }
 
-void test_automate(Automate* automate, std::string text, bool silent = false) {
-    automate->run_automate(0, text, silent);
+void test_automaton(Automaton* automaton, std::string text, bool silent = false) {
+    automaton->run(0, text, silent);
     if (silent) {
         return;
     }
 
-    if (automate->is_broken()) {
-        std::cout << "String read failed. Automate is broken.\n";
-    } else if (automate->at_final_state()) {
+    if (automaton->is_broken()) {
+        std::cout << "String read failed. Automaton is broken.\n";
+    } else if (automaton->at_final_state()) {
         std::cout << "String read succeed.\n";
     } else {
         std::cout << "String read failed.\n";
@@ -49,15 +49,15 @@ int main(int argc, char *argv[]) {
         text = read_file();
     }
 
-    Automate automate = default_automate();
-    test_automate(&automate, text, true);
-    if (automate.is_broken() || !automate.at_final_state()) {
-        std::cout << "Warning! The automate cannot read the initial string.\n\n";
+    Automaton automaton = default_automaton();
+    test_automaton(&automaton, text, true);
+    if (automaton.is_broken() || !automaton.at_final_state()) {
+        std::cout << "Warning! The automaton cannot read the initial string.\n\n";
     }
 
     text += CONST_ENDING;
 
-    automate = default_automate();
-    test_automate(&automate, text);
+    automaton = default_automaton();
+    test_automaton(&automaton, text);
     return 0;
 }

@@ -1,19 +1,19 @@
 #include <iostream>
 
-#include "Automate.h"
+#include "Automaton.h"
 
-void Automate::create_state() {
+void Automaton::create_state() {
     states.push_back(State(states.size()));
 }
 
-void Automate::create_states(int n) {
+void Automaton::create_states(int n) {
     int i;
     for (i = 0; i < n; i++) {
         create_state();
     }
 }
 
-void Automate::run_step(char statement, bool silent) {
+void Automaton::run_step(char statement, bool silent) {
     if (!silent) {
         std::cout << "Got '" << statement << "'. ";
     }
@@ -27,23 +27,23 @@ void Automate::run_step(char statement, bool silent) {
     current_state = new_state;
 }
 
-void Automate::break_reset() {
+void Automaton::break_reset() {
     current_state = nullptr;
 }
 
-Automate::Automate(int n_states) {
+Automaton::Automaton(int n_states) {
     create_states(n_states);
 }
 
-void Automate::add_transition(int from, int to, char condition) {
+void Automaton::add_transition(int from, int to, char condition) {
     states[from].add_transition(&states[to], condition);
 }
 
-void Automate::mark_state_as_final(int state_number) {
+void Automaton::mark_state_as_final(int state_number) {
     states[state_number].mark_as_final();
 }
 
-void Automate::run_automate(int starting_state, std::string text, bool silent) {
+void Automaton::run(int starting_state, std::string text, bool silent) {
     current_state = &states[starting_state];
     if (!silent) {
         std::cout << "Starting at " << current_state->get_name() << " with input string " << text << ".\n";
@@ -57,7 +57,7 @@ void Automate::run_automate(int starting_state, std::string text, bool silent) {
         run_step(text[i], silent);
         if (is_broken()) {
             if (!silent) {
-                std::cout << "Automate is broken.\n";
+                std::cout << "Automaton is broken.\n";
             }
             return;
         }
@@ -67,10 +67,10 @@ void Automate::run_automate(int starting_state, std::string text, bool silent) {
     }
 }
 
-bool Automate::at_final_state() {
+bool Automaton::at_final_state() {
     return current_state->is_final();
 }
 
-bool Automate::is_broken() {
+bool Automaton::is_broken() {
     return current_state == nullptr;
 }
