@@ -1,5 +1,3 @@
-#include <string>
-
 #include "State.h"
 
 #ifndef SYSLAB2_AUTOMATE_H
@@ -11,6 +9,8 @@ class Automate {
     void create_state();
 
     void create_states(int n);
+
+    void run_step(char statement);
 
     void break_reset();
 public:
