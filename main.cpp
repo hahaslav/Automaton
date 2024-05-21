@@ -2,8 +2,36 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <vector>
 
 const std::string CONST_ENDING = "23";
+
+class State {
+    bool final = false;
+    std::vector<char> conditions;
+    std::vector<State> transitions;
+public:
+    State() {}
+};
+
+class Automate {
+    std::vector<State> states;
+
+    void create_state() {
+        states.push_back(State());
+    }
+
+    void create_states(int n) {
+        int i;
+        for (i = 0; i < n; i++) {
+            create_state();
+        }
+    }
+public:
+    Automate(int n_states) {
+        create_states(n_states);
+    }
+};
 
 std::string read_file(std::string filename = "input.txt") {
     std::ifstream fin(filename);
@@ -65,5 +93,8 @@ int main(int argc, char *argv[]) {
     } else {
         std::cout << "String read failed";
     }
+
+    Automate automate(3);
+
     return 0;
 }
