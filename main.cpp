@@ -16,12 +16,16 @@ std::string read_file(std::string filename = "input.txt") {
 }
 
 Automaton default_automaton() {
-    Automaton automaton(3);
+    Automaton automaton(5);
     automaton.add_transition(0, 1, '1');
-    automaton.add_transition(1, 0, '1');
-    automaton.add_transition(1, 2, '2');
-    automaton.add_transition(2, 0, '3');
-    automaton.mark_state_as_final(0);
+    automaton.add_transition(1, 1, '1');
+    automaton.add_transition(1, 2, '3');
+    automaton.add_transition(0, 3, '2');
+    automaton.add_transition(3, 3, '2');
+    automaton.add_transition(3, 4, '3');
+    automaton.mark_state_as_final(1);
+    automaton.mark_state_as_final(2);
+    automaton.mark_state_as_final(3);
     return automaton;
 }
 
