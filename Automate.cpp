@@ -43,7 +43,7 @@ void Automate::mark_state_as_final(int state_number) {
 
 void Automate::run_automate(int starting_state, std::string text) {
     current_state = &states[starting_state];
-    std::cout << "Starting at " << current_state->get_name() << ".\n";
+    std::cout << "Starting at " << current_state->get_name() << " with input string " << text << ".\n";
 
     int i;
     for (i = 0; i < text.size(); i++) {

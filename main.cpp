@@ -51,28 +51,17 @@ bool simple_automate(std::string text) {
     return ending_state;
 }
 
-int main(int argc, char *argv[]) {
-    std::string text;
-    if (argc > 1) {
-        text = read_file(argv[1]);
-    } else {
-        text = read_file();
-    }
-    text += CONST_ENDING;
-
-    std::cout << "Input string is: " << text << "\n";
-    if (simple_automate(text)) {
-        std::cout << "String read succeed.\n";
-    } else {
-        std::cout << "String read failed.\n";
-    }
-
+Automate default_automate() {
     Automate automate(3);
     automate.add_transition(0, 1, '1');
     automate.add_transition(1, 0, '1');
     automate.add_transition(1, 2, '2');
     automate.add_transition(2, 0, '3');
     automate.mark_state_as_final(0);
+    return automate;
+}
+
+void test_automate(Automate automate, std::string text) {
     automate.run_automate(0, text);
     if (automate.is_broken()) {
         std::cout << "String read failed. Automate is broken.\n";
@@ -81,6 +70,25 @@ int main(int argc, char *argv[]) {
     } else {
         std::cout << "String read failed.\n";
     }
+    std::cout << "\n";
+}
 
+int main(int argc, char *argv[]) {
+    std::string text;
+    if (argc > 1) {
+        text = read_file(argv[1]);
+    } else {
+        text = read_file();
+    }
+    test_automate(default_automate(), text);
+    text += CONST_ENDING;
+
+    std::cout << "Input string is: " << text << "\n";
+    if (simple_automate(text)) {
+        std::cout << "String read succeed.\n";
+    } else {
+        std::cout << "String read failed.\n";
+    }
+    test_automate(default_automate(), text);
     return 0;
 }
