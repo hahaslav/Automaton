@@ -23,6 +23,7 @@ Automaton default_automaton() {
     automaton.add_transition(0, 3, '2');
     automaton.add_transition(3, 3, '2');
     automaton.add_transition(3, 4, '3');
+    automaton.add_transition(4, 2, '3');
     automaton.mark_state_as_final(1);
     automaton.mark_state_as_final(2);
     automaton.mark_state_as_final(3);
