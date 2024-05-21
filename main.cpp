@@ -1,75 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <sstream>
-#include <vector>
+
+#include "Automate.h"
 
 const std::string CONST_ENDING = "23";
-
-class State {
-    bool final = false;
-    std::vector<char> conditions;
-    std::vector<State*> transitions;
-public:
-    State() {}
-
-    void add_transition(State* to, char condition) {
-        conditions.push_back(condition);
-        transitions.push_back(to);
-    }
-
-    void mark_as_final() {
-        final = true;
-    }
-
-    bool is_final() {
-        return final;
-    }
-};
-
-class Automate {
-    std::vector<State> states;
-    State* current_state;
-
-    void create_state() {
-        states.push_back(State());
-    }
-
-    void create_states(int n) {
-        int i;
-        for (i = 0; i < n; i++) {
-            create_state();
-        }
-    }
-
-    void break_reset() {
-        current_state = nullptr;
-    }
-public:
-    Automate(int n_states) {
-        create_states(n_states);
-    }
-
-    void add_transition(int from, int to, char condition) {
-        states[from].add_transition(&states[to], condition);
-    }
-
-    void mark_state_as_final(int state_number) {
-        states[state_number].mark_as_final();
-    }
-
-    void run_automate(int starting_state, std::string text) {
-        current_state = &states[starting_state];
-    }
-
-    bool at_final_state() {
-        return current_state->is_final();
-    }
-
-    bool is_broken() {
-        return current_state == nullptr;
-    }
-};
 
 std::string read_file(std::string filename = "input.txt") {
     std::ifstream fin(filename);
